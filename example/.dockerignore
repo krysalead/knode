@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# Source
+README.md
+
+#generated content
+dist
+**/npm-debug.log
+**/coverage
+
+#Docker
+Dockerfile*
+
+# NPM dependencies
+node_modules
+
+#editor
+**/.editorconfig
+**/.vscode
+
+#env
+**/.env
+**/.aws
+**/.npmrc
+**/.nvmrc

@@ -1,0 +1,15 @@
+FROM node:14.10-alpine
+# install git, python and compiler for native dependency code
+RUN apk add git g++ make python3 && ln -sf python3 /usr/bin/python
+WORKDIR /usr/app
+# For dev we add nodemon, run first as the below once are redownloaded each build
+RUN npm install -g nodemon
+# For dev we add the typescript compiler
+RUN npm install -g tsc
+# install wait to allow starting after another process is available
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
+RUN chmod +x /wait
+# start script allow flexibility in runtime command, it will ensure node as runner and not NPM
+COPY dev.sh .
+RUN mv dev.sh start.sh
+RUN chmod +x start.sh

@@ -1,0 +1,34 @@
+# Git
+.git
+.gitignore
+
+# Source
+README.md
+
+#generated content
+dist
+**/npm-debug.log
+**/coverage
+
+#Docker
+Dockerfile*
+
+#Example
+example
+
+# NPM dependencies
+node_modules
+
+#build script
+build.sh
+
+#editor
+**/.editorconfig
+**/.vscode
+
+#env
+**/.env
+**/.aws
+**/.npmrc
+**/.nvmrc
+.hadolint.yaml

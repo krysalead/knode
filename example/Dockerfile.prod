@@ -1,0 +1,17 @@
+FROM knode:14.10-alpine AS build
+COPY "package.json" "package-lock.json" ./
+# download only the dependencies from package-lock
+RUN npm ci --quiet && npm cache clean --force
+# copy the source code
+COPY . .
+# build the code in ./dist
+RUN npm run build
+
+FROM build as prod
+# Do not run as root
+USER node
+# get the previous stage compilation
+COPY --from=build /dist /dist
+# expose the production port
+EXPOSE 4000
+CMD /wait && ./start.sh
