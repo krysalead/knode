@@ -1,5 +1,5 @@
 #!/bin/sh
-COMMAND=${TASK_NAME:-start}
+COMMAND="${TASK_NAME:-start}"
 echo "Running command $COMMAND"
 echo "This image is not aimed to be production ready, use the production image associated"
 case $COMMAND in
