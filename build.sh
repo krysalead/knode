@@ -18,10 +18,10 @@ then
     exit 2
 fi
 # Authentication to the docker hub, it will interactively request your password
-docker login --username=${USERNAME} --password=${DOCKER_HUB_PASSWORD}
+docker login -u ${USERNAME} -p ${DOCKER_HUB_PASSWORD}
 if [ $? != 0 ];
 then
-    echo "Failed to login to the docker hub, see error above '$DOCKER_HUB_PASSWORD'"
+    echo "Failed to login to the docker hub, see error above"
     exit 1
 fi
 for IMAGE_TYPE in dev prd 
