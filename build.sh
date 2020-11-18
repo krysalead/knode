@@ -21,7 +21,7 @@ fi
 docker login --username=${USERNAME} --password=${DOCKER_HUB_PASSWORD}
 if [ $? != 0 ];
 then
-    echo "Failed to login to the docker hub, see error above"
+    echo "Failed to login to the docker hub, see error above $DOCKER_HUB_PASSWORD"
     exit 1
 fi
 for IMAGE_TYPE in dev prd 
