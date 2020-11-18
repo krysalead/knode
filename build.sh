@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 NODE_VERSION=14.10-alpine
 USERNAME=krysalead
 declare ports
