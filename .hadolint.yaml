@@ -1,2 +1,4 @@
+ignored:
+  - SC1068
 allowedRegistries:
   - docker.io

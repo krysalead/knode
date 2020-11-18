@@ -1,5 +1,4 @@
 FROM knode-dev:14.10-alpine
-EXPOSE 4000 5858
 COPY "package.json" "package-lock.json" ./
 RUN npm install --quiet
 COPY . .
