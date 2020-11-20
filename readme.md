@@ -29,3 +29,9 @@ nodemon --watch dist --debug --debug-brk=5858 index.js
 ## run.sh
 
 will run only the production command
+
+# Build
+
+```
+./build.sh DOCKER_HUB_PASS
+```

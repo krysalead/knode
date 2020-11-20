@@ -18,7 +18,7 @@ then
     exit 2
 fi
 # Authentication to the docker hub, it will interactively request your password
-docker login -u ${USERNAME} -p ${$1}
+docker login -u ${USERNAME} -p $1
 if [ $? != 0 ];
 then
     echo "Failed to login to the docker hub, see error above"
