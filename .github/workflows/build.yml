@@ -22,4 +22,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: build
+        env:
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
         run: ./build.sh $DOCKER_HUB_PASSWORD
