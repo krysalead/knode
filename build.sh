@@ -1,12 +1,6 @@
 #!/bin/bash
 NODE_VERSION=14.10-alpine
 USERNAME=krysalead
-declare ports
-ports[dev]="4000 5858"
-ports[prd]="4000"
-declare suffix
-suffix[dev]="-dev"
-suffix[prd]=""
 
 DOCKERFILE="Dockerfile"
 echo "Validation '$DOCKERFILE'"
@@ -26,10 +20,18 @@ then
 fi
 for IMAGE_TYPE in dev prd 
 do
-    IMAGE_NAME="dknode${suffix[$IMAGE_TYPE]}:${NODE_VERSION}"
+    if [ $IMAGE_TYPE == dev ];
+    then
+        ports='4000 5858'
+        suffix="-dev"
+    else
+        ports[prd]="4000"
+        suffix[prd]=""
+    fi
+    IMAGE_NAME="dknode${suffix}:${NODE_VERSION}"
     echo "Building $IMAGE_NAME"
     # Get the hash of the image
-    OUTPUT=$(docker build -t ${IMAGE_NAME} -f $DOCKERFILE . --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS=${ports[$IMAGE_TYPE]} | grep "Successfully built")
+    OUTPUT=$(docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS="$ports" . | grep "Successfully built")
     if [ $? != 0 ];
     then
         echo "Failed to build the image, see error above"
