@@ -1,4 +1,4 @@
-FROM knode-dev:14.10-alpine
+FROM dknode-dev:14.10-alpine
 COPY "package.json" "package-lock.json" ./
 RUN npm install --quiet
 COPY . .

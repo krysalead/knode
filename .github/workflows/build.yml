@@ -6,7 +6,7 @@ name: CI
 # events but only for the main branch
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,4 +22,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: build
-        run: ./build.sh
+        run: ./build.sh $DOCKER_HUB_PASSWORD

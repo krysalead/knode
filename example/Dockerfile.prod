@@ -1,4 +1,4 @@
-FROM knode:14.10-alpine AS build
+FROM dknode:14.10-alpine AS build
 COPY "package.json" "package-lock.json" ./
 # download only the dependencies from package-lock
 RUN npm ci --quiet && npm cache clean --force
