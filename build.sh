@@ -5,8 +5,8 @@ declare ports
 ports[dev]="4000 5858"
 ports[prd]="4000"
 declare suffix
-ports[dev]="-dev"
-ports[prd]=""
+suffix[dev]="-dev"
+suffix[prd]=""
 
 DOCKERFILE="Dockerfile"
 echo "Validation '$DOCKERFILE'"
