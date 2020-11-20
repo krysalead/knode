@@ -38,7 +38,7 @@ do
     stringarray=($OUTPUT)
     echo "Tagging $IMAGE_NAME"
     # tag the image with the hash
-    docker tag ${stringarray[${#stringarray[@]} - 1]]} ${USERNAME}/${IMAGE_NAME}
+    docker tag ${stringarray[${#stringarray[@]} - 1]} ${USERNAME}/${IMAGE_NAME}
     echo "Pushing $IMAGE_NAME"
     docker push ${USERNAME}/${IMAGE_NAME}
 done
