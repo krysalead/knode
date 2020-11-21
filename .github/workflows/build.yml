@@ -25,4 +25,5 @@ jobs:
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-        run: ./build.sh $DOCKER_HUB_USERNAME $DOCKER_HUB_PASSWORD
+          COMMIT: ${{ github.sha }}
+        run: ./build.sh $DOCKER_HUB_USERNAME $DOCKER_HUB_PASSWORD $COMMIT

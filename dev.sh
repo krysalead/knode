@@ -2,6 +2,7 @@
 COMMAND="${TASK_NAME:-start}"
 echo "Running command $COMMAND"
 echo "This image is not aimed to be production ready, use the production image associated"
+# We can extend the list on demand
 case $COMMAND in
     start)  node index.js;;
     dev) nodemon index.js --watch dist;;
