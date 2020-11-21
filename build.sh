@@ -24,7 +24,7 @@ do
     fi
 done
 
-if [ $DO_BUILD ==0 ]; 
+if [ $DO_BUILD == 0 ]; 
 then
     echo "Nothing to build"
     exit 0
