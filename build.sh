@@ -4,7 +4,7 @@ USERNAME=$1
 PASSWORD=$2
 
 CHANGES=$(git diff-tree --no-commit-id --name-only -r $3)
-echo "CHANGES: $CHANGES"
+echo "CHANGES ($3): $CHANGES"
 DO_BUILD=0
 IMAGE_LIST=""
 for file in $CHANGES 
