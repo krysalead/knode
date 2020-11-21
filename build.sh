@@ -1,6 +1,7 @@
 #!/bin/bash
 NODE_VERSION=14.10-alpine
-USERNAME=krysalead
+USERNAME=$1
+PASSWORD=$2
 
 DOCKERFILE="Dockerfile"
 echo "Validation '$DOCKERFILE'"
@@ -12,7 +13,12 @@ then
     exit 2
 fi
 # Authentication to the docker hub, it will interactively request your password
-docker login -u ${USERNAME} -p $1
+if [ ! -z "$PASSWORD" ];
+then
+    echo "Connecting to docker hub"
+    docker login -u ${USERNAME} -p $PASSWORD
+fi
+
 if [ $? != 0 ];
 then
     echo "Failed to login to the docker hub, see error above"
@@ -31,16 +37,21 @@ do
     IMAGE_NAME="dknode${suffix}:${NODE_VERSION}"
     echo "Building $IMAGE_NAME"
     # Get the hash of the image
-    OUTPUT=$(docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS="$ports" . | grep "Successfully built")
+    echo "docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS="$ports" --build-arg NODE_BASE_VERSION=${NODE_VERSION} ."
+    OUTPUT=$(docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS="$ports" --build-arg NODE_BASE_VERSION=${NODE_VERSION} . | tee /dev/stderr | grep "Successfully built")
     if [ $? != 0 ];
     then
         echo "Failed to build the image, see error above"
         exit 3
     fi
     stringarray=($OUTPUT)
-    echo "Tagging $IMAGE_NAME"
+    $TAG=${stringarray[${#stringarray[@]} - 1]}
+    echo "Tagging $IMAGE_NAME ($TAG)"
     # tag the image with the hash
-    docker tag ${stringarray[${#stringarray[@]} - 1]} ${USERNAME}/${IMAGE_NAME}
-    echo "Pushing $IMAGE_NAME"
-    docker push ${USERNAME}/${IMAGE_NAME}
+    docker tag $TAG ${USERNAME}/${IMAGE_NAME}
+    if [ ! -z "$PASSWORD" ];
+    then
+        echo "Pushing $IMAGE_NAME"
+        docker push ${USERNAME}/${IMAGE_NAME}
+    fi
 done
