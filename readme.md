@@ -73,5 +73,5 @@ CMD /wait && ./start.sh
 You need a username and password on DockerHub
 
 ```
-./build.sh DOCKER_HUB_USERNAME DOCKER_HUB_PASS
+./build.sh COMMIT DOCKER_HUB_USERNAME DOCKER_HUB_PASS
 ```

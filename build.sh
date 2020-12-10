@@ -1,28 +1,33 @@
 #!/bin/bash
 NODE_VERSION=14.10-alpine
-USERNAME=$1
-PASSWORD=$2
-
-CHANGES=$(git diff-tree --no-commit-id --name-only -r $3)
-echo "CHANGES ($3): $CHANGES"
+USERNAME=$2
+PASSWORD=$3
 DO_BUILD=0
 IMAGE_LIST=""
-for file in $CHANGES 
-do
-    if [[ "$file" =~ ^(build\.sh|Dockerfile)$ ]]; then
-        DO_BUILD=1
-        IMAGE_LIST="dev prd"
-    else
-        if [[ "$file" =~ ^(dev\.sh)$ ]]; then
+if [ ! -z "$1" ];
+then
+    CHANGES=$(git diff-tree --no-commit-id --name-only -r $1)
+    echo "CHANGES ($3): $CHANGES"
+    for file in $CHANGES 
+    do
+        if [[ "$file" =~ ^(build\.sh|Dockerfile)$ ]]; then
             DO_BUILD=1
-            IMAGE_LIST="dev $IMAGE_LIST"
+            IMAGE_LIST="dev prd"
+        else
+            if [[ "$file" =~ ^(dev\.sh)$ ]]; then
+                DO_BUILD=1
+                IMAGE_LIST="dev $IMAGE_LIST"
+            fi
+            if [[ "$file" =~ ^(run\.sh)$ ]]; then
+                DO_BUILD=1
+                IMAGE_LIST="prd $IMAGE_LIST"
+            fi
         fi
-        if [[ "$file" =~ ^(run\.sh)$ ]]; then
-            DO_BUILD=1
-            IMAGE_LIST="prd $IMAGE_LIST"
-        fi
-    fi
-done
+    done
+else
+    DO_BUILD=1
+    IMAGE_LIST="dev $IMAGE_LIST"
+fi
 
 if [ $DO_BUILD == 0 ]; 
 then
@@ -71,13 +76,13 @@ do
         echo "Failed to build the image, see error above"
         exit 3
     fi
-    stringarray=($OUTPUT)
-    $TAG=${stringarray[${#stringarray[@]} - 1]}
-    echo "Tagging $IMAGE_NAME ($TAG)"
-    # tag the image with the hash
-    docker tag $TAG ${USERNAME}/${IMAGE_NAME}
     if [ ! -z "$PASSWORD" ];
     then
+        stringarray=($OUTPUT)
+        TAG=${stringarray[${#stringarray[@]} - 1]}
+        echo "Tagging $IMAGE_NAME ($TAG)"
+        # tag the image with the hash
+        docker tag $TAG ${USERNAME}/${IMAGE_NAME}
         echo "Pushing $IMAGE_NAME"
         docker push ${USERNAME}/${IMAGE_NAME}
     fi
