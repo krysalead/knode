@@ -17,6 +17,6 @@ RUN if [ "$ENV" = "dev" ] ; then npm install -g nodemon@2.0.6 typescript@4.0.5; 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
 RUN chmod +x /wait
 # start script allow flexibility in runtime command, it will ensure node as runner and not NPM
-COPY dev.sh .
-RUN mv dev.sh start.sh
+COPY run.sh .
+RUN mv run.sh start.sh
 RUN chmod +x start.sh
