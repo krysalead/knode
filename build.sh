@@ -1,39 +1,8 @@
 #!/bin/bash
 NODE_VERSION=14.10-alpine
-USERNAME=$2
-PASSWORD=$3
-DO_BUILD=0
-IMAGE_LIST=""
-if [ ! -z "$1" ];
-then
-    CHANGES=$(git diff-tree --no-commit-id --name-only -r $1)
-    echo "CHANGES ($3): $CHANGES"
-    for file in $CHANGES 
-    do
-        if [[ "$file" =~ ^(build\.sh|Dockerfile)$ ]]; then
-            DO_BUILD=1
-            IMAGE_LIST="dev prd"
-        else
-            if [[ "$file" =~ ^(dev\.sh)$ ]]; then
-                DO_BUILD=1
-                IMAGE_LIST="dev $IMAGE_LIST"
-            fi
-            if [[ "$file" =~ ^(run\.sh)$ ]]; then
-                DO_BUILD=1
-                IMAGE_LIST="prd $IMAGE_LIST"
-            fi
-        fi
-    done
-else
-    DO_BUILD=1
-    IMAGE_LIST="dev $IMAGE_LIST"
-fi
-
-if [ $DO_BUILD == 0 ]; 
-then
-    echo "Nothing to build"
-    exit 0
-fi
+USERNAME=$1
+PASSWORD=$2
+IMAGE_LIST="dev prd"
 
 DOCKERFILE="Dockerfile"
 echo "Validation '$DOCKERFILE'"

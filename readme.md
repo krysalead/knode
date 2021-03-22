@@ -5,9 +5,15 @@ Feel free to comment or fork if you need.
 
 The base image avoid to recompile the entire image preparation, the images in **example** folder gives the rest of the operation to produce DEV images and PROD images. It includes a build script to build and check your images.
 
-## dev.sh
+The starter script allows to start various processes in the docker image according to the TASK_NAME env variable.
 
-This script allows to start various processes in the docker image according to the TASK_NAME env variable.
+```
+    dev) nodemon index.js --watch dist;;
+    debug) nodemon --watch dist --debug --debug-brk=5858 index.js;;
+    *) node index.js;;
+```
+
+## dev
 
 ```
 FROM dknode-dev:14.10-alpine
@@ -22,33 +28,15 @@ RUN npm run build
 CMD /wait && ./start.sh
 ```
 
-**start** will start the image with
-
-```
-node index.js
-```
-
-**dev** will start the image with
-
-```
-nodemon index.js --watch dist
-```
-
-**debug** will start the image with
-
-```
-nodemon --watch dist --debug --debug-brk=5858 index.js
-```
-
 Running the image with a runtime compiled source that will reload each time the compiled source change
 
 ```
 docker run -ti -v ${PWD}/dist/:/app/dist/ -e TASK_NAME=dev MY_IMAGE_NAME
 ```
 
-## run.sh
+## production
 
-will run only the production command
+will run in a production environement
 
 ```
 FROM dknode:14.10-alpine AS build
@@ -73,5 +61,5 @@ CMD /wait && ./start.sh
 You need a username and password on DockerHub
 
 ```
-./build.sh COMMIT DOCKER_HUB_USERNAME DOCKER_HUB_PASS
+./build.sh DOCKER_HUB_USERNAME DOCKER_HUB_PASS
 ```
