@@ -40,9 +40,10 @@ do
     # Get the hash of the image
     echo "docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS="$ports" --build-arg NODE_BASE_VERSION=${NODE_VERSION} ."
     OUTPUT=$(docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS="$ports" --build-arg NODE_BASE_VERSION=${NODE_VERSION} . | tee /dev/stderr | grep "Successfully built")
-    if [ $? != 0 ];
+    STATUS=$?
+    if [ $STATUS -eq 0 ];
     then
-        echo "Failed to build the image, see error above"
+        echo "Failed to build the image, see error above ($STATUS)"
         exit 3
     fi
     if [ ! -z "$PASSWORD" ];
@@ -54,5 +55,7 @@ do
         docker tag $TAG ${USERNAME}/${IMAGE_NAME}
         echo "Pushing $IMAGE_NAME"
         docker push ${USERNAME}/${IMAGE_NAME}
+    else
+        echo "Build completed not uploaded to Docker hub"
     fi
 done

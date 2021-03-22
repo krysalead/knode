@@ -1,11 +1,11 @@
-ARG NODE_BASE_VERSION=14.10-alpine
+ARG NODE_BASE_VERSION=14.10-alpine3.11
 FROM node:$NODE_BASE_VERSION
 ARG ENV 
 ARG PORTS
 LABEL maintainer="krysalead@gmail.com"
 EXPOSE $PORTS
 # install git, python and compiler for native dependency code
-RUN apk add git=2.24.3-r0 g++=9.3.0-r0 make=4.2.1-r2 python3=3.9.1 --no-cache
+RUN apk add git=2.24.4-r0 g++=9.3.0-r0 make=4.2.1-r2 python3=3.8.2-r2 --no-cache
 RUN ln -sf python3 /usr/bin/python
 RUN rm -R /var/cache/apk/
 # Creating a working folder and giving the owner rights to node user
