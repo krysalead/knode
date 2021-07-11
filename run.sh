@@ -1,10 +1,12 @@
 #!/bin/sh
-COMMAND="${TASK_NAME:-start}"
+TASK="${TASK:-start}"
+MAIN="${MAIN:-src/main}"
+COMMAND=${LANG}_${TASK}
 echo "Running command $COMMAND"
 echo "This image is not aimed to be production ready, use the production image associated"
 # We can extend the list on demand
-case $COMMAND in
-    dev) nodemon index.js --watch dist;;
-    debug) nodemon --watch dist --debug --debug-brk=5858 index.js;;
-    *) node index.js;;
+case $TASK in
+    dev) nodemon --config nodemon.json ${MAIN};;
+    debug) nodemon --config nodemon.json --debug --debug-brk=5858 ${MAIN};;
+    *) node ${MAIN};;
 esac

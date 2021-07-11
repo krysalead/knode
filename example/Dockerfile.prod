@@ -4,7 +4,7 @@ COPY --chown=node:node "package.json" "package-lock.json" ./
 RUN npm ci --quiet && npm cache clean --force
 # copy the source code
 COPY --chown=node:node . .
-# build the code in ./dist
+# build the code
 RUN npm run build
 
 FROM build as prod

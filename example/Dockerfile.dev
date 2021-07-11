@@ -7,4 +7,4 @@ COPY . .
 # This is only if you require it (Typescript or packaging)
 RUN npm run build
 # This will start wait (to wait for another server) and then start the process according to the env variable TASK_NAME
-CMD /wait && ./start.sh
+CMD ./start.sh

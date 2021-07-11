@@ -1,5 +1,5 @@
 #!/bin/bash
-NODE_VERSION=14.10-alpine
+NODE_VERSION=14.17.1-alpine
 USERNAME=$1
 PASSWORD=$2
 IMAGE_LIST="dev prd"
@@ -38,10 +38,10 @@ do
     IMAGE_NAME="dknode${suffix}:${NODE_VERSION}"
     echo "Building $IMAGE_NAME"
     # Get the hash of the image
-    echo "docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS="$ports" --build-arg NODE_BASE_VERSION=${NODE_VERSION} ."
+    echo "docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS=\"$ports\" --build-arg NODE_BASE_VERSION=${NODE_VERSION} ."
     OUTPUT=$(docker build -t ${IMAGE_NAME} --build-arg ENV=${IMAGE_TYPE} --build-arg PORTS="$ports" --build-arg NODE_BASE_VERSION=${NODE_VERSION} . | tee /dev/stderr | grep "Successfully built")
     STATUS=$?
-    if [ $STATUS -gt 0 ];
+    if [ $STATUS -gt 1 ];
     then
         echo "Failed to build the image, see error above ($STATUS)"
         exit 3
